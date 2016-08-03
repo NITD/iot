@@ -15,7 +15,11 @@ module.exports = function (io) {
 	};
 
 	var apps = {
-		music: require('./music')
+		music: require('./music'),
+		control: require('./control')
+	};
+	var appSockets = {
+		control: [ ]
 	};
 
 	var sockets = {
@@ -38,7 +42,7 @@ module.exports = function (io) {
 		if (device.type === 'app') {
 			if (apps[device.appType]) {
 				console.log(device.appType + ' app connected');
-				apps[device.appType](socket);
+				apps[device.appType](socket, io, sockets, deviceMap, deviceStatus, appSockets);
 				socket.emit('connected', device);
 			} else {
 				console.log('The client trying to establish connection is not recognised');
@@ -55,7 +59,7 @@ module.exports = function (io) {
 				console.log(device.type + ' ' + device.id + ' connected');
 				sockets[device.type + 's'][device.id] = socket.id;
 				deviceMap[socket.id] = [device.type, body];
-				addEvents[device.type](socket, io, sockets, deviceMap, deviceStatus);
+				addEvents[device.type](socket, io, sockets, deviceMap, deviceStatus, appSockets);
 				socket.emit('connected', device);
 			} else {
 				console.log('The client trying to establish connection is not recognised');

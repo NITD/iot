@@ -1,4 +1,4 @@
-var socket = io.connect('http://192.168.0.100:3000', { query: 'type=app&appType=music' });
+var socket = io.connect('http://localhost:3000', { query: 'type=app&appType=music' });
 
 var playing = false;
 var isChrome = !!window.chrome && !!window.chrome.webstore;

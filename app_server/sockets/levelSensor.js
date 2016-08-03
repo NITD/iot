@@ -1,10 +1,13 @@
 var clientTypes = ['fans'];
+var updateControlApp = require('./control').updateControlApp;
 
-module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
+module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSockets) {
 	deviceStatus[socket.id] = { status: 'off', level: 0 };
+	updateControlApp(io, appSockets, deviceStatus, deviceMap);
 
 	function sendStatusToClients(msg) {
 		deviceStatus[socket.id] = { status: msg.status, level: msg.level };
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		var clients = deviceMap[socket.id][1].clients;
 		clientTypes.forEach(function (device) {
 			clients[device].forEach(function (client) {
@@ -25,5 +28,6 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
 		delete deviceMap[socket.id];
 		delete deviceStatus[socket.id];
 		delete sockets[type + 's'][id];
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 	});
 };

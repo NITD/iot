@@ -1,8 +1,12 @@
-module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
+var updateControlApp = require('./control').updateControlApp;
+
+module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSockets) {
 	deviceStatus[socket.id] = { status: 'off', speed: 0 };
+	updateControlApp(io, appSockets, deviceStatus, deviceMap);
 
 	socket.on('status', function (msg) {
 		deviceStatus[socket.id] = { status: msg.status, level: msg.level };
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 	});
 
 	socket.on('get status', function () {
@@ -25,5 +29,6 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
 		delete deviceMap[socket.id];
 		delete deviceStatus[socket.id];
 		delete sockets[type + 's'][id];
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 	});
 };

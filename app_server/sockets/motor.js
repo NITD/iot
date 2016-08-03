@@ -1,5 +1,7 @@
+var updateControlApp = require('./control').updateControlApp;
+
 var timers = [];
-function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus) {
+function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets) {
 	timers.forEach(function (timer) {
 		clearInterval(timer);
 	});
@@ -22,6 +24,7 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus) {
 				});
 				if (num === 0) {
 					deviceStatus[motor].status = 'off';
+					updateControlApp(io, appSockets, deviceStatus, deviceMap);
 					io.sockets.connected[motor].emit('status', { status: 'off' });
 				} else {
 					var rate = deviceMap[motor][1].rate;
@@ -59,9 +62,11 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus) {
 
 module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
 	deviceStatus[socket.id] = { status: 'off' };
+	updateControlApp(io, appSockets, deviceStatus, deviceMap);
 
 	socket.on('status', function (message) {
 		deviceStatus[socket.id].status = message.status;
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
 	});
 
@@ -84,6 +89,7 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
 		delete deviceMap[socket.id];
 		delete deviceStatus[socket.id];
 		delete sockets[type + 's'][id];
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
 	});
 };

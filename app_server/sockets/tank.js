@@ -1,14 +1,18 @@
+var updateControlApp = require('./control').updateControlApp;
 var refreshWaterDistribution = require('./motor').refreshWaterDistribution;
 
-module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
+module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSockets) {
 	deviceStatus[socket.id] = { status: 'off', level: 0 };
+	updateControlApp(io, appSockets, deviceStatus, deviceMap);
 
 	socket.on('level', function (message) {
 		deviceStatus[socket.id].level = message.level;
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 	});
 
 	socket.on('get water', function () {
 		deviceStatus[socket.id].status = 'on';
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		var motors = deviceMap[socket.id][1].clients.motors;
 		motors.forEach(function (motor) {
 			var motorSocketId = sockets.motors[motor._id];
@@ -23,6 +27,7 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
 
 	socket.on('stop water', function () {
 		deviceStatus[socket.id].status = 'off';
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
 	});
 
@@ -33,6 +38,7 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
 		delete deviceMap[socket.id];
 		delete deviceStatus[socket.id];
 		delete sockets[type + 's'][id];
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
 	});
 };

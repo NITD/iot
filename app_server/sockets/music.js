@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = function (socket) {
+module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSockets) {
 	socket.on('play', function (message) {
 		var musicFile = fs.createReadStream(__dirname + '/../music/' + message.song);
 		musicFile.on('error', function () {

@@ -70,7 +70,7 @@ small {
 	width: 100%;
 }
 @media all and (min-width: 800px) {
-	.col-4-12 {
+	.col-4 {
 		width: 33.3333333%;
 	}
 }
