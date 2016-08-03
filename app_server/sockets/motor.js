@@ -1,0 +1,90 @@
+var timers = [];
+function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus) {
+	timers.forEach(function (timer) {
+		clearInterval(timer);
+	});
+	timers = [];
+	var timerids = [];
+	var rates = { };
+	var requestingTanks = { };
+	for (motorid in sockets.motors) {
+		if (sockets.motors.hasOwnProperty(motorid)) {
+			var motor = sockets.motors[motorid];
+			if (deviceStatus[motor].status === 'on') {
+				var tanks = deviceMap[motor][1].clients.tanks;
+				var num = 0;
+				tanks.forEach(function (tank) {
+					var tankid = sockets.tanks[tank._id];
+					if (tankid && deviceStatus[tankid].status === 'on') {
+						num += 1;
+						requestingTanks[tankid] = true;
+					}
+				});
+				if (num === 0) {
+					deviceStatus[motor].status = 'off';
+					io.sockets.connected[motor].emit('status', { status: 'off' });
+				} else {
+					var rate = deviceMap[motor][1].rate;
+					var effectiveRate = rate / num;
+					rates[motor] = effectiveRate;
+				}
+			}
+		}
+	}
+	for (tankid in requestingTanks) {
+		if (requestingTanks.hasOwnProperty(tankid)) {
+			var motors = deviceMap[tankid][1].clients.motors;
+			var rate = 0;
+			var capacity = deviceMap[tankid][1].capacity;
+			motors.forEach(function (motor) {
+				var motorid = sockets.motors[motor._id];
+				if (motorid && rates[motorid]) {
+					rate += rates[motorid];
+				}
+			});
+			(function (tankid, rate) {
+				var timer = setInterval(function () {
+					var level = deviceStatus[tankid].level;
+					if (level + rate <= capacity) {
+						io.sockets.connected[tankid].emit('water', { capacity: rate });
+					} else {
+						io.sockets.connected[tankid].emit('water', { capacity: capacity - level });
+					}
+				}, 1000);
+				timers.push(timer);
+			}(tankid, rate));
+		}
+	}
+}
+
+module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
+	deviceStatus[socket.id] = { status: 'off' };
+
+	socket.on('status', function (message) {
+		deviceStatus[socket.id].status = message.status;
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+	});
+
+	socket.on('get status', function () {
+		var tanks = deviceMap[socket.id][1].clients.tanks;
+		var len = tanks.length;
+		for (var i = 0; i < len; i += 1) {
+			var tankSocket = sockets.tanks[tanks[i]._id];
+			if (deviceStatus[tankSocket] && deviceStatus[tankSocket].status === 'on') {
+				socket.emit('status', { status: 'on' });
+				break;
+			}
+		}
+	});
+
+	socket.on('disconnect', function () {
+		var type = deviceMap[socket.id][0];
+		var id = deviceMap[socket.id][1]._id;
+		console.log(type + ' ' + id + ' disconnected');
+		delete deviceMap[socket.id];
+		delete deviceStatus[socket.id];
+		delete sockets[type + 's'][id];
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+	});
+};
+module.exports.refreshWaterDistribution = refreshWaterDistribution;

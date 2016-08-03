@@ -1,0 +1,21 @@
+.door-status {
+	font-size: 1.5rem;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: #eee;
+}
+.door-status.open {
+	color: #373733;
+}
+
+.door {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #373733;
+	z-index: -100;
+	transition: all 500ms ease-in-out;
+}
+.door.open {
+	top: -100%;
+}

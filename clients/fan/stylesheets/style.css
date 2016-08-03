@@ -1,0 +1,26 @@
+@keyframes rotate {
+	0% {
+		transform: rotate( 0deg );
+		transform-origin: 50% 62.5%;
+	}
+	100% {
+		transform: rotate( 360deg );
+		transform-origin: 50% 62.5%;
+	}
+}
+
+body {
+	background-color: #373733;
+}
+
+.fan {
+	width: 100px;
+	margin-bottom: 2rem;
+}
+
+.fan-status-wrap {
+	font-size: 1.5rem;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: #eee;
+}

@@ -35,3 +35,8 @@ process.on('SIGINT', function () {
 
 require('./lamp');
 require('./switchSensor');
+require('./motor');
+require('./tank');
+require('./garageDoor');
+require('./levelSensor');
+require('./fan');

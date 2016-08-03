@@ -1,0 +1,14 @@
+body {
+	background-color: #373733;
+}
+
+.motor-icon {
+	max-width: 100px;
+}
+
+.motor-status {
+	font-size: 1.5rem;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: #eee;
+}

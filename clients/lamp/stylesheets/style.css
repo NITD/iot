@@ -1,0 +1,17 @@
+body {
+	background-color: #373733;
+	transition: all 500ms ease-in-out;
+}
+body.on {
+	background-color: #eee;
+}
+
+.lamp-status {
+	font-size: 1.5rem;
+	letter-spacing: .2em;
+	text-transform: uppercase;
+	color: #eee;
+}
+.lamp-status.on {
+	color: #373733;
+}
