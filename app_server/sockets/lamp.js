@@ -14,7 +14,8 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 		if (client) {
 			var clientsocketid = sockets.switchSensors[client._id];
 			if (deviceStatus[clientsocketid]) {
-				socket.emit('status', { status: deviceStatus[clientsocketid].status });
+                var sensorStatus = deviceStatus[clientsocketid].status;
+				socket.emit('status', { status: sensorStatus });
 			}
 		}
 	});

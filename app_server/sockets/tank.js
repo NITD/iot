@@ -18,6 +18,7 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 			var motorSocketId = sockets.motors[motor._id];
 			if (motorSocketId) {
 				if (deviceStatus[motorSocketId].status === 'off') {
+                    console.log('status from lamp');
 					io.sockets.connected[motorSocketId].emit('status', { status: 'on' });
 				}
 			}

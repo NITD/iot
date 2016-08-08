@@ -2,6 +2,7 @@ var updateControlApp = require('./control').updateControlApp;
 
 var timers = [];
 function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets) {
+    console.log('wow');
 	timers.forEach(function (timer) {
 		clearInterval(timer);
 	});
@@ -10,9 +11,13 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSocke
 	var rates = { };
 	var requestingTanks = { };
 	for (motorid in sockets.motors) {
+        console.log('infor');
 		if (sockets.motors.hasOwnProperty(motorid)) {
+            console.log('infirstif');
 			var motor = sockets.motors[motorid];
+            console.log(deviceStatus[motor].status);
 			if (deviceStatus[motor].status === 'on') {
+                
 				var tanks = deviceMap[motor][1].clients.tanks;
 				var num = 0;
 				tanks.forEach(function (tank) {
@@ -22,6 +27,7 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSocke
 						requestingTanks[tankid] = true;
 					}
 				});
+                console.log(num);
 				if (num === 0) {
 					deviceStatus[motor].status = 'off';
 					updateControlApp(io, appSockets, deviceStatus, deviceMap);
@@ -49,6 +55,7 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSocke
 				var timer = setInterval(function () {
 					var level = deviceStatus[tankid].level;
 					if (level + rate <= capacity) {
+                        console.log(rate);
 						io.sockets.connected[tankid].emit('water', { capacity: rate });
 					} else {
 						io.sockets.connected[tankid].emit('water', { capacity: capacity - level });
@@ -60,17 +67,19 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSocke
 	}
 }
 
-module.exports = function (socket, io, sockets, deviceMap, deviceStatus) {
+module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSockets) {
 	deviceStatus[socket.id] = { status: 'off' };
 	updateControlApp(io, appSockets, deviceStatus, deviceMap);
 
 	socket.on('status', function (message) {
+        console.log('hello'+message.status);
 		deviceStatus[socket.id].status = message.status;
 		updateControlApp(io, appSockets, deviceStatus, deviceMap);
 		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
 	});
 
 	socket.on('get status', function () {
+        console.log('getstatus');
 		var tanks = deviceMap[socket.id][1].clients.tanks;
 		var len = tanks.length;
 		for (var i = 0; i < len; i += 1) {
