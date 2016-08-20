@@ -8,6 +8,7 @@ var ctrlTank = require('../controllers/tank');
 var ctrlGarageDoor = require('../controllers/garageDoor');
 var ctrlLevelSensor = require('../controllers/levelSensor');
 var ctrlFan = require('../controllers/fan');
+var ctrlAll = require('../controllers/all');
 
 //Lamp
 router.get('/lamp/:lampid', ctrlLamp.readOne);
@@ -78,5 +79,8 @@ router.delete('/fan/:fanid', ctrlFan.deleteOne);
 router.get('/fan/:fanid/client/:type', ctrlFan.clientReadOne);
 router.post('/fan/:fanid/client/:type', ctrlFan.clientCreate);
 router.delete('/fan/:fanid/client/:type', ctrlFan.clientDelete);
+
+//All
+router.get('/devices', ctrlAll.readAllIds);
 
 module.exports = router;

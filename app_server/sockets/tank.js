@@ -23,13 +23,13 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 				}
 			}
 		});
-		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets);
 	});
 
 	socket.on('stop water', function () {
 		deviceStatus[socket.id].status = 'off';
 		updateControlApp(io, appSockets, deviceStatus, deviceMap);
-		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets);
 	});
 
 	socket.on('disconnect', function () {
@@ -40,6 +40,6 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 		delete deviceStatus[socket.id];
 		delete sockets[type + 's'][id];
 		updateControlApp(io, appSockets, deviceStatus, deviceMap);
-		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets);
 	});
 };

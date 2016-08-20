@@ -1,8 +1,8 @@
-var status = [];
+var statusList = [];
 var level = [];
 for (var i = 0; i < 9; i++) {
-	status[i] = 'off';
 	level[i] = 0;
+	statusList[i] = 'off';
 }
 
 var $fanWrap = $('.fan-wrap');
@@ -15,7 +15,7 @@ function changeFanStatus(message, index) {
 	level[index] = message.level;
 	$status.eq(index).html(level[index]);
 	if (message.status === 'on') {
-		status[index] = 'on';
+		statusList[index] = 'on';
 		var duration = 3000 - level[index] / 100 * 2700;
 		duration = parseInt(duration, 10) + 'ms';
 		var animation = duration + ' linear infinite rotate';
@@ -24,10 +24,10 @@ function changeFanStatus(message, index) {
 			$fanWrap.eq(index).find('.fan').css('animation', animation);
 		});
 	} else {
-		status[index] = 'off';
+		statusList[index] = 'off';
 		$fanWrap.eq(index).find('.fan').css('animation', 'none');
 	}
-	socket[index].emit('status', { status: status[index], level: level[index] });
+	socket[index].emit('status', { status: statusList[index], level: level[index] });
 }
 
 for (i = 2; i <= 10; i++) {
@@ -35,7 +35,7 @@ for (i = 2; i <= 10; i++) {
 	socket.push(s);
 	(function (s, index) {
 		s.on('connected', function () {
-			s.emit('status', { status: status[index - 2], level: level[index - 2] });
+			s.emit('status', { status: statusList[index - 2], level: level[index - 2] });
 			s.emit('get status');
 		});
 		s.on('status', function (message) {

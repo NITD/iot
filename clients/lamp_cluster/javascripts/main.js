@@ -9,7 +9,7 @@ var $lamps = $('.lamp');
 
 function switchLampOn(index) {
 	statusList[index] = 'on';
-	socket[index].emit('status', { status: status });
+	socket[index].emit('status', { status: statusList[index] });
 	$lamps.eq(index).addClass('on');
 	var $status = $lamps.eq(index).find('.status');
 	$status.fadeOut(250);
@@ -21,7 +21,7 @@ function switchLampOn(index) {
 
 function switchLampOff(index) {
 	statusList[index] = 'off';
-	socket[index].emit('status', { status: status });
+	socket[index].emit('status', { status: statusList[index] });
 	$lamps.eq(index).removeClass('on');
 	var $status = $lamps.eq(index).find('.status');
 	$status.fadeOut(250);
@@ -36,7 +36,7 @@ for (var i = 2; i <= 10; i += 1) {
 	socket.push(s);
 	(function (s, index) {
 		s.on('connected', function () {
-			s.emit('status', { status: status[i - 2] });
+			s.emit('status', { status: statusList[index - 2] });
 			s.emit('get status');
 		});
 

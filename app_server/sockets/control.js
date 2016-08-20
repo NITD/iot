@@ -24,6 +24,10 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 	appSockets.control.push(socket.id);
 	updateControlApp(io, appSockets, deviceStatus, deviceMap);
 
+	socket.on('get status', function () {
+		updateControlApp(io, appSockets, deviceStatus, deviceMap);
+	});
+
 	socket.on('disconnect', function () {
 		var indexToRemove = appSockets.control.indexOf(socket.id);
 		appSockets.control.splice(indexToRemove, 1);

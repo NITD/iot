@@ -75,7 +75,7 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
         console.log('hello'+message.status);
 		deviceStatus[socket.id].status = message.status;
 		updateControlApp(io, appSockets, deviceStatus, deviceMap);
-		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets);
 	});
 
 	socket.on('get status', function () {
@@ -99,7 +99,7 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 		delete deviceStatus[socket.id];
 		delete sockets[type + 's'][id];
 		updateControlApp(io, appSockets, deviceStatus, deviceMap);
-		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus);
+		refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSockets);
 	});
 };
 module.exports.refreshWaterDistribution = refreshWaterDistribution;
