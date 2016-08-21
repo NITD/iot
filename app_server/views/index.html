@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Control App</title>
+		<link rel="stylesheet" href="stylesheets/fonts.css">
+		<link rel="stylesheet" href="stylesheets/reset.css">
+		<link rel="stylesheet" href="stylesheets/ui.css">
+		<link rel="stylesheet" href="stylesheets/style.css">
+	</head>
+
+	<body>
+		<section id="device-wrap" class="row container h-center">
+		</section>
+
+		<section id="device-page-wrap" class="fixed-page hidden">
+			<div id="device-page" class="row container h-center">
+				<section id="device-image-page" class="h-center-wrap">
+				</section>
+				<section id="device-status-page" class="space-top">
+				</section>
+				<section id="device-info-page" class="space-top-small">
+				</section>
+				<section id="device-info-page-update-btn" class="space-top-small h-center-wrap">
+				</section>
+				<section class="space-top">
+					<h3 class="h-center-wrap">Clients</h3>
+					<section id="clients-page" class="space-top-xs"></section>
+				</section>
+			</div>
+			<img id="device-page-wrap-close" class="cross-icon" src="assets/images/cross.png">
+		</section>
+
+		<section id="add-device-page-wrap" class="full-page fixed-page hidden">
+			<div id="add-device-page" class="row container h-center">
+				<section id="add-device-info-page">
+				</section>
+			</div>
+			<img id="add-device-page-wrap-close" class="cross-icon" src="assets/images/cross.png">
+		</section>
+
+		<script src="javascripts/socket.io.js"></script>
+		<script src="javascripts/jquery-1.12.4.min.js"></script>
+		<script src="javascripts/main.js"></script>
+	</body>
+</html>

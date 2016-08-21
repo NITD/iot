@@ -14,7 +14,6 @@ function updateControlApp(io, appSockets, deviceStatus, deviceMap) {
 		}
 		o[type][id] = deviceStatus[socket];
 	}
-	console.log(JSON.stringify(o, null, 2));
 	appSockets.control.forEach(function (socketid) {
 		io.sockets.connected[socketid].emit('status', o);
 	});
