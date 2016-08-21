@@ -508,6 +508,12 @@ function showClients(type, id) {
 				+ '<a class="btn client-delete-btn" id="lamp-switchsensor-' + id + '-' + clientid + '-client-delete-btn">Delete</a>'
 				+ '</div>';
 		}
+		str += '<div class="space-top-small">'
+			+ '<p>Update switch sensor client to id '
+			+ '<span class="editable client-id-add-field" contenteditable="true"></span>'
+			+ '.</p>'
+			+ '<a id="lamp-add-client-btn" class="btn space-top-xs add-client-btn">Update</a>'
+			+ '</div>';
 	} else if (type === 'garagedoor') {
 		if (deviceData.garagedoors && deviceData.garagedoors[id] && deviceData.garagedoors[id].clients.switchSensor) {
 			clientid = deviceData.garagedoors[id].clients.switchSensor._id;
@@ -517,6 +523,12 @@ function showClients(type, id) {
 				+ '<a class="btn client-delete-btn" id="garagedoor-switchsensor-' + id + '-' + clientid + '-client-delete-btn">Delete</a>'
 				+ '</div>';
 		}
+		str += '<div class="space-top-small">'
+			+ '<p>Update switch sensor client to id '
+			+ '<span class="editable client-id-add-field" contenteditable="true"></span>'
+			+ '.</p>'
+			+ '<a id="garagedoor-add-client-btn" class="btn space-top-xs add-client-btn">Update</a>'
+			+ '</div>';
 	} else if (type === 'switchsensor') {
 		clientArray = deviceData.switchsensors && deviceData.switchsensors[id] && deviceData.switchsensors[id].clients.lamps;
 		if (clientArray && clientArray.length) {
@@ -549,6 +561,12 @@ function showClients(type, id) {
 				+ '<a class="btn client-delete-btn" id="fan-levelsensor-' + id + '-' + clientid + '-client-delete-btn">Delete</a>'
 				+ '</div>';
 		}
+		str += '<div class="space-top-small">'
+			+ '<p>Update level sensor client to id '
+			+ '<span class="editable client-id-add-field" contenteditable="true"></span>'
+			+ '.</p>'
+			+ '<a id="fan-add-client-btn" class="btn space-top-xs add-client-btn">Update</a>'
+			+ '</div>';
 	} else if (type === 'levelsensor') {
 		clientArray = deviceData.levelsensors && deviceData.levelsensors[id] && deviceData.levelsensors[id].clients.fans;
 		if (clientArray && clientArray.length) {
@@ -573,6 +591,12 @@ function showClients(type, id) {
 					+ '</div>';
 			});
 		}
+		str += '<div class="space-top-small">'
+			+ '<p>Add a new tank client with id '
+			+ '<span class="editable client-id-add-field" contenteditable="true"></span>'
+			+ '.</p>'
+			+ '<a id="motor-add-client-btn" class="btn space-top-xs add-client-btn">Add</a>'
+			+ '</div>';
 	} else if (type === 'tank') {
 		clientArray = deviceData.tanks && deviceData.tanks[id] && deviceData.tanks[id].clients.motors;
 		if (clientArray && clientArray.length) {
@@ -673,6 +697,96 @@ $('#device-info-page-update-btn').on('click', '.device-delete-btn', function () 
 	});
 });
 
+$('#clients-page').on('click', '.add-client-btn', function () {
+	var type = currentStatusPage.type;
+	var id = currentStatusPage.id;
+	var clientid = $('.client-id-add-field').html();
+	clientid = clientid && parseInt(clientid, 10);
+	if (isNaN(clientid) || !clientid.toString().length) {
+		window.alert('Invalid client id.');
+		return;
+	}
+	var clientType;
+	if (type === 'garagedoor') {
+		type = 'garageDoor';
+	}
+	if (type === 'lamp' || type === 'garageDoor') {
+		clientType = 'switchSensor';
+	} else if (type === 'fan') {
+		clientType = 'levelSensor';
+	} else if (type === 'motor') {
+		clientType = 'tank';
+	} else {
+		return;
+	}
+	if (type === 'lamp' || type === 'fan' || type === 'garageDoor') {
+		var deleteid = $('.client-id--list').html();
+		if (deleteid) {
+			deleteClient(clientType, deleteid, type, id);
+		}
+	}
+	$.post('http://localhost:3000/api/' + type + '/' + id + '/client/' + clientType, { id: clientid })
+	.done(function () {
+		$.post('http://localhost:3000/api/' + clientType + '/' + clientid + '/client/' + type, { id: id })
+		.done(function () {
+			window.alert('Client added successfully.');
+		})
+		.fail(function () {
+			'An error occurred. The client may not have been added both ways.';
+		})
+		.always(function () {
+			getDevices();
+		});
+	})
+	.fail(function () {
+		window.alert('An error occurred.');
+	});
+});
+
+function deleteClient(type, id, ctype, cid) {
+	if (type === 'lamp' || type === 'garagedoor' || type === 'fan') {
+		if (ctype === 'switchsensor') {
+			ctype = 'switchSensor';
+		} else if (ctype === 'levelsensor') {
+			ctype = 'levelSensor';
+		}
+		$.ajax({
+			method: 'DELETE',
+			url: 'http://localhost:3000/api/' + type + '/' + id + '/client/' + ctype
+		})
+		.fail(function () {
+			window.alert('An error occurred');
+		})
+		.always(function () {
+			getDevices();
+		});
+	} else {
+		if (ctype === 'garagedoor') {
+			ctype = 'garageDoor';
+		}
+		$.ajax({
+			method: 'DELETE',
+			url: 'http://localhost:3000/api/' + type + '/' + id + '/client/' + ctype + '/' + cid
+		})
+		.fail(function () {
+			window.alert('An error occurred');
+		})
+		.always(function () {
+			getDevices();
+		});
+	}
+}
+
+$('#clients-page').on('click', '.client-delete-btn', function () {
+	var fullid = $(this).attr('id').split('-');
+	var type1 = fullid[0];
+	var type2 = fullid[1];
+	var id1 = fullid[2];
+	var id2 = fullid[3];
+	deleteClient(type1, id1, type2, id2);
+	deleteClient(type2, id2, type1, id1);
+});
+
 $('#device-page-wrap-close').click(function () {
 	$('#device-page-wrap').addClass('hidden');
 });
@@ -692,6 +806,7 @@ function getDevices() {
 		}
 		deviceData = data;
 		showDevices(data);
+		showClients(currentStatusPage.type, currentStatusPage.id);
 		socket.emit('get status');
 	})
 	.fail(function () {
