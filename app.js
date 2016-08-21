@@ -13,6 +13,14 @@ var users = require('./app_server/routes/users');
 
 var app = express();
 
+//Cross domains
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  next();
+});
+
 //Socket.io
 var io = socket_io();
 app.io = io;
