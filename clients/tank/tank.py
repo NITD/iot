@@ -66,7 +66,7 @@ def thread2():
     global level
     global capacity
     while (True):
-        if (raw_input() == "request"):
+        if (raw_input() == "r"):
             print requesting
             if (requesting):
                 stopRequestingWater()

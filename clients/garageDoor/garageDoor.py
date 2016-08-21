@@ -11,13 +11,13 @@ socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(garageDoorId)+
 
 def closeDoor():
     global status
-    print "closed"
+    print "Door closed"
     status = "closed"
     socket.emit('status', {'status': status})
 
 def openDoor():
     global status
-    print "open"
+    print "Door open"
     status = "open"
     socket.emit('status', {'status': status})
 

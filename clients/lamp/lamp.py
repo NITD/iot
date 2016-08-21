@@ -11,13 +11,13 @@ socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(lampId)+'&type
 
 def switchLampOn():
     global status
-    print "on"
+    print "Lamp is on"
     status = "on"
     socket.emit('status', {'status': status})
 
 def switchLampOff():
     global status
-    print "off"
+    print "Lamp is off"
     status = "off"
     socket.emit('status', {'status': status})
 

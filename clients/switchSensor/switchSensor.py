@@ -27,11 +27,11 @@ def switchOn():
 while (True) :
     switch = raw_input()
     if (switch == 'switch'):
-        print status
         if (status == 'off'):
             switchOn()
         else:
             switchOff()
+    print status
     elif (switch == 'close'):
         break
         
