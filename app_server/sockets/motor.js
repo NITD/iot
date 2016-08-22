@@ -12,7 +12,6 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSocke
 	for (motorid in sockets.motors) {
 		if (sockets.motors.hasOwnProperty(motorid)) {
 			var motor = sockets.motors[motorid];
-            console.log(deviceStatus[motor].status);
 			if (deviceStatus[motor].status === 'on') {
                 
 				var tanks = deviceMap[motor][1].clients.tanks;
@@ -24,7 +23,6 @@ function refreshWaterDistribution(io, sockets, deviceMap, deviceStatus, appSocke
 						requestingTanks[tankid] = true;
 					}
 				});
-                console.log(num);
 				if (num === 0) {
 					deviceStatus[motor].status = 'off';
 					updateControlApp(io, appSockets, deviceStatus, deviceMap);

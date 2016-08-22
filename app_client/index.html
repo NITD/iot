@@ -39,9 +39,14 @@
 			</div>
 			<img id="add-device-page-wrap-close" class="cross-icon" src="assets/images/cross.png">
 		</section>
-
+		<script>
+			if (typeof module === 'object') { window.module = module; module = undefined; }
+		</script>
 		<script src="javascripts/socket.io.js"></script>
 		<script src="javascripts/jquery-1.12.4.min.js"></script>
 		<script src="javascripts/main.js"></script>
+		<script>
+			if (window.module) module = window.module;
+		</script>
 	</body>
 </html>
