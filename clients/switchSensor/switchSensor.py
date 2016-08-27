@@ -34,7 +34,7 @@ while (True) :
             switchOn()
         else:
             switchOff()
-    print status
+        print status
     elif (switch == 'close'):
         break
         
