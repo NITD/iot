@@ -6,13 +6,16 @@ level = 0
 capacity = 250
 requesting = False
 
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
 sys.stdout.write("Enter tank id ")
 tankId = int(raw_input())
 
 sys.stdout.write("Enter tank capacity ")
 capacity = int(raw_input())
 
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(tankId)+'&type=tank'})
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(tankId)+'&type=tank'})
 
 def requestWater():
     global requesting

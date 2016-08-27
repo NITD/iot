@@ -3,10 +3,14 @@ import json
 import sys
 
 level = 0
+
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
 sys.stdout.write("Enter levelSensor id ")
 levelSensorId = int(raw_input())
 	
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(levelSensorId)+'&type=levelSensor'})
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(levelSensorId)+'&type=levelSensor'})
 
 def sliderChanged():
     global level

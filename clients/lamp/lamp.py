@@ -4,10 +4,13 @@ import sys
 
 status = "off"
 
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
 sys.stdout.write("Enter lamp id ")
 lampId = int(raw_input())
 	
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(lampId)+'&type=lamp'})
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(lampId)+'&type=lamp'})
 
 def switchLampOn():
     global status

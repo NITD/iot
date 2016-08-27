@@ -4,10 +4,13 @@ import sys
 
 status = "closed"
 
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
 sys.stdout.write("Enter garageDoor id ")
 garageDoorId = int(raw_input())
 	
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(garageDoorId)+'&type=garageDoor'})
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(garageDoorId)+'&type=garageDoor'})
 
 def closeDoor():
     global status

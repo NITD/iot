@@ -4,6 +4,9 @@ import sys
 
 status = "off"
 
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
 sys.stdout.write("Enter motor id ")
 motorId = int(raw_input())
 
@@ -19,7 +22,7 @@ def switchMotorOff():
     status = "off"
     socket.emit('status', {'status': status})
     
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(motorId)+'&type=motor'})
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(motorId)+'&type=motor'})
 
 def onConnected(*message):
     global status

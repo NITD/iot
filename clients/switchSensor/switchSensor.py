@@ -4,10 +4,13 @@ import sys
 
 status = 'off'
 
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
 sys.stdout.write("Enter switchSensor id ")
 switchSensorId = int(raw_input())
 
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(switchSensorId)+'&type=switchSensor'})
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(switchSensorId)+'&type=switchSensor'})
 
 def connected(*message):
     socket.emit('status', {'status': status })

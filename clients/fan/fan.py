@@ -7,8 +7,11 @@ level = 0
 
 sys.stdout.write("Enter fan id ")
 fanId = int(raw_input())
-	
-socket = SocketIO('localhost', 3000, params = {'query': 'id='+str(fanId)+'&type=fan'})
+
+sys.stdout.write("Enter ip ")
+ip = raw_input()
+
+socket = SocketIO(ip, 3000, params = {'query': 'id='+str(fanId)+'&type=fan'})
 
 def changeFanStatus(*message):
     global level
