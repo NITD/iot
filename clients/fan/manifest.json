@@ -1,0 +1,6 @@
+{
+  "short_name": "Fan",
+  "name": "Fan",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

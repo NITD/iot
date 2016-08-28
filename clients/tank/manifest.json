@@ -1,0 +1,6 @@
+{
+  "short_name": "Tank 1",
+  "name": "Tank 1",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

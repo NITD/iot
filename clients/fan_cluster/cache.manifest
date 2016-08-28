@@ -1,0 +1,18 @@
+CACHE MANIFEST
+
+#v0.1
+
+CACHE:
+/index.html
+/stylesheets/fonts.css
+/stylesheets/reset.css
+/stylesheets/style.css
+/stylesheets/ui.css
+/javascripts/jquery-1.12.4.min.js
+/javascripts/socket.io.js
+/javascripts/main.js
+/assets/images/fan.png
+/assets/fonts/josefin-sans/JosefinSans-Regular.ttf
+
+NETWORK:
+*

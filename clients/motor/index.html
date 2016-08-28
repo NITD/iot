@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" manifest="cache.manifest">
 	<head>
 		<meta charset="utf-8">
 		<title>Motor</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="manifest" href="manifest.json">
+        
 		<link rel="stylesheet" href="stylesheets/fonts.css">
 		<link rel="stylesheet" href="stylesheets/reset.css">
 		<link rel="stylesheet" href="stylesheets/ui.css">
 		<link rel="stylesheet" href="stylesheets/style.css">
 	</head>
 
-	<body>
+	<body ontouchstart="">
 		<div class="v-center-wrap h-center-wrap full-page">
 			<div class="v-center-box">
 				<img class="motor-icon" src="assets/images/motor-white.png">
 				<div class="motor-status">Off</div>
 			</div>
 		</div>
+
+		<section id="ip-page" class="v-center-wrap h-center-wrap">
+			<div class="v-center-box">
+				<input id="ip-input" type="text" placeholder="IP:Port">
+				<a id="ip-btn">Connect</a>
+			</div>
+		</section>
 
 		<script src="javascripts/socket.io.js"></script>
 		<script src="javascripts/jquery-1.12.4.min.js"></script>

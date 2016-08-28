@@ -197,3 +197,43 @@ img {
 .btn:active {
 	opacity: 1;
 }
+
+/*--------------------------------------------.
+|                    IP Page                  |
+`--------------------------------------------*/
+
+#ip-page {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: white;
+}
+#ip-input {
+	display: block;
+	outline: 0;
+	border: 0;
+	border-bottom: 2px solid black;
+	margin-bottom: 1rem;
+	text-align: center;
+	font: inherit;
+	font-size: 3rem;
+	line-height: 1.5;
+}
+#ip-btn {
+	display: inline-block;
+	font-size: 1.5em;
+	line-height: 1;
+	padding: 1rem 1rem .7rem 1rem;
+	text-transform: uppercase;
+	border: 2px solid black;
+	border-radius: .3rem;
+	cursor: pointer;
+	color: black;
+}
+#ip-btn:active {
+	border-color: transparent;
+	background-color: black;
+	color: white;
+}

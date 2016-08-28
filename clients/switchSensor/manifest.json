@@ -1,0 +1,6 @@
+{
+  "short_name": "Switch Sensor",
+  "name": "Switch Sensor",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

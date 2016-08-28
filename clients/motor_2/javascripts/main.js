@@ -1,44 +1,50 @@
-var status = 'off';
+$('#ip-btn').click(function () {
+	var server = $('#ip-input').val();
 
-var $status = $('.motor-status');
-var $motor = $('.motor-icon');
+	var status = 'off';
 
-function switchMotorOn() {
-	status = 'on';
-	socket.emit('status', { status: status });
-	$motor.fadeOut(250);
-	$status.fadeOut(250);
-	setTimeout(function () {
-		$motor.attr('src', 'assets/images/motor-green.png');
-		$status.html('on');
-		$motor.fadeIn(250);
-		$status.fadeIn(250);
-	}, 250);
-}
+	var $status = $('.motor-status');
+	var $motor = $('.motor-icon');
 
-function switchMotorOff() {
-	status = 'off';
-	socket.emit('status', { status: status });
-	$motor.fadeOut(250);
-	$status.fadeOut(250);
-	setTimeout(function () {
-		$motor.attr('src', 'assets/images/motor-white.png');
-		$status.html('off');
-		$motor.fadeIn(250);
-		$status.fadeIn(250);
-	}, 250);
-}
-
-var socket = io.connect('http://localhost:3000', { query: 'id=2&type=motor' });
-socket.on('connected', function () {
-	socket.emit('status', { status: status });
-	socket.emit('get status');
-});
-socket.on('status', function (message) {
-	if (message.status === 'on') {
-		switchMotorOn();
-	} else {
-		switchMotorOff();
+	function switchMotorOn() {
+		status = 'on';
+		socket.emit('status', { status: status });
+		$motor.fadeOut(250);
+		$status.fadeOut(250);
+		setTimeout(function () {
+			$motor.attr('src', 'assets/images/motor-green.png');
+			$status.html('on');
+			$motor.fadeIn(250);
+			$status.fadeIn(250);
+		}, 250);
 	}
+
+	function switchMotorOff() {
+		status = 'off';
+		socket.emit('status', { status: status });
+		$motor.fadeOut(250);
+		$status.fadeOut(250);
+		setTimeout(function () {
+			$motor.attr('src', 'assets/images/motor-white.png');
+			$status.html('off');
+			$motor.fadeIn(250);
+			$status.fadeIn(250);
+		}, 250);
+	}
+
+	var socket = io.connect('http://' + server, { query: 'id=2&type=motor' });
+	socket.on('connected', function () {
+		socket.emit('status', { status: status });
+		socket.emit('get status');
+	});
+	socket.on('status', function (message) {
+		if (message.status === 'on') {
+			switchMotorOn();
+		} else {
+			switchMotorOff();
+		}
+	});
+	socket.on('disconnect', switchMotorOff);
+
+	$('#ip-page').fadeOut(200);
 });
-socket.on('disconnect', switchMotorOff);

@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 
-<html>
+<html manifest="cache.manifest">
 	<head>
 		<meta charset="utf-8">
 		<title>Music App</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="manifest" href="manifest.json">
+        
 		<link rel="stylesheet" href="stylesheets/fonts.css">
 		<link rel="stylesheet" href="stylesheets/reset.css">
 		<link rel="stylesheet" href="stylesheets/ui.css">
@@ -22,6 +27,13 @@
 				<small class="tap-message">Tap To Play</small>
 			</div>
 			<small class="cancel">Close</small>
+		</section>
+
+		<section id="ip-page" class="v-center-wrap h-center-wrap">
+			<div class="v-center-box">
+				<input id="ip-input" type="text" placeholder="IP:Port">
+				<a id="ip-btn">Connect</a>
+			</div>
 		</section>
 
 		<script src="javascripts/socket.io.js"></script>

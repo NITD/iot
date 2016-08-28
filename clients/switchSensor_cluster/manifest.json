@@ -1,0 +1,6 @@
+{
+  "short_name": "Switch Cluster",
+  "name": "Switch Sensor Cluster",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

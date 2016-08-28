@@ -1,0 +1,6 @@
+{
+  "short_name": "Garage Door",
+  "name": "Garage Door",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

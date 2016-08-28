@@ -1,0 +1,6 @@
+{
+  "short_name": "Level Sensor",
+  "name": "Level Sensor",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

@@ -1,0 +1,6 @@
+{
+  "short_name": "IOT Music",
+  "name": "IOT Music",
+  "start_url": "/index.html",
+  "display": "standalone"
+}

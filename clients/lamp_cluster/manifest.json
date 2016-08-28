@@ -1,0 +1,6 @@
+{
+  "short_name": "Lamp Cluster",
+  "name": "Lamp Cluster",
+  "start_url": "/index.html",
+  "display": "standalone"
+}
