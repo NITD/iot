@@ -1,3 +1,6 @@
+var request = require('request');
+var apiOptions = { server: 'http://localhost:3000' };
+
 function updateControlApp(io, appSockets, deviceStatus, deviceMap) {
 	if (!appSockets.control.length) {
 		return;
@@ -25,6 +28,35 @@ module.exports = function (socket, io, sockets, deviceMap, deviceStatus, appSock
 
 	socket.on('get status', function () {
 		updateControlApp(io, appSockets, deviceStatus, deviceMap);
+	});
+
+	socket.on('map update', function (msg) {
+		if (msg.type === 'switchsensor') {
+			msg.type = 'switchSensor';
+		} else if (msg.type === 'levelsensor') {
+			msg.type = 'levelSensor';
+		} else if (msg.type === 'garagedoor') {
+			msg.type = 'garageDoor';
+		}
+		request({
+			url: apiOptions.server + '/api/' + msg.type + '/' + msg.id,
+			method: 'GET',
+			json: { }
+		}, function (err, response, body) {
+			if (response.statusCode == 200) {
+				var devicesocket = sockets[msg.type + 's'] && sockets[msg.type + 's'][msg.id];
+				if (devicesocket) {
+					deviceMap[devicesocket] = [msg.type, body];
+				}
+			}
+		});
+	});
+
+	socket.on('map delete', function (msg) {
+		var devicesocket = sockets[msg.type + 's'] && sockets[msg.type + 's'][msg.id];
+		if (devicesocket) {
+			io.sockets.connected[devicesocket].disconnect();
+		}
 	});
 
 	socket.on('disconnect', function () {

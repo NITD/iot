@@ -650,6 +650,7 @@ $('#add-device-info-page').on('click', '.device-post-btn', function () {
 	})
 	.always(function () {
 		$('#add-device-page-wrap').addClass('hidden');
+		socket.emit('map update', { type: type, id: obj.id });
 		getDevices();
 	});
 });
@@ -671,6 +672,7 @@ $('#device-info-page-update-btn').on('click', '.device-put-btn', function () {
 		window.alert('An error occurred while updating the device.');
 	})
 	.always(function () {
+		socket.emit('map update', { type: type, id: currentStatusPage.id });
 		getDevices();
 	});
 });
@@ -693,6 +695,7 @@ $('#device-info-page-update-btn').on('click', '.device-delete-btn', function () 
 		window.alert('An error occurred while deleting the device.');
 	})
 	.always(function () {
+		socket.emit('map delete', { type: type, id: id });
 		getDevices();
 	});
 });
@@ -735,11 +738,15 @@ $('#clients-page').on('click', '.add-client-btn', function () {
 			'An error occurred. The client may not have been added both ways.';
 		})
 		.always(function () {
+			socket.emit('map update', { type: clientType, id: clientid });
 			getDevices();
 		});
 	})
 	.fail(function () {
 		window.alert('An error occurred.');
+	})
+	.always(function () {
+		socket.emit('map update', { type: type, id: id });
 	});
 });
 
@@ -758,6 +765,7 @@ function deleteClient(type, id, ctype, cid) {
 			window.alert('An error occurred');
 		})
 		.always(function () {
+			socket.emit('map update', { type: type, id: id });
 			getDevices();
 		});
 	} else {
@@ -772,6 +780,7 @@ function deleteClient(type, id, ctype, cid) {
 			window.alert('An error occurred');
 		})
 		.always(function () {
+			socket.emit('map update', { type: type, id: id });
 			getDevices();
 		});
 	}
