@@ -20,7 +20,6 @@ socket = SocketIO(ip, 3000, params = {'query': 'id='+str(tankId)+'&type=tank'})
 def requestWater():
     global requesting
     requesting = True
-    print "hi"
     socket.emit('get water')
 
 def stopRequestingWater():
@@ -70,7 +69,6 @@ def thread2():
     global capacity
     while (True):
         if (raw_input() == "r"):
-            print requesting
             if (requesting):
                 stopRequestingWater()
             else:
