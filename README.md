@@ -19,29 +19,29 @@ A simple server to enable iot devices to communicate with each other with mock c
 ![client-app](screenshots/server.png)
 
 
-# The lamp client.
+### The lamp client.
 ![client-app](screenshots/lamp.png)
 
 
-# The fan client.
+### The fan client.
 ![client-app](screenshots/fan.png)
 
 
-# The garage door client.
+### The garage door client.
 ![client-app](screenshots/garage-door.png)
 
 
-# The level sensor client.
+### The level sensor client.
 ![client-app](screenshots/level-sensor.png)
 
 
-# The switch sensor client.
+### The switch sensor client.
 ![client-app](screenshots/switch-sensor.png)
 
 
-# The motor client.
+### The motor client.
 ![client-app](screenshots/motor.png)
 
 
-# The tank client.
+### The tank client.
 ![client-app](screenshots/tank.png)
